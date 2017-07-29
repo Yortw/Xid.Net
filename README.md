@@ -5,9 +5,9 @@ Xid.Net is a globally unique id generator library, ready to be used safely and  
 
 Xid uses the Mongo Object ID algorithm to generate globally unique ids with a different serialization (base32 vs base64) to make it shorter when transported as a string: [https://docs.mongodb.org/manual/reference/object-id/](https://docs.mongodb.org/manual/reference/object-id/).
 
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Yortw/XidNet/blob/master/LICENSE.md) 
-[![Build status](https://ci.appveyor.com/api/projects/status/f4e33as09yx0lsn4?svg=true)](https://ci.appveyor.com/project/Yortw/XidNet)
-[![NuGet Badge](https://buildstats.info/nuget/XidNet)](https://www.nuget.org/packages/XidNet/)
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Yortw/Xid.Net/blob/master/LICENSE) 
+[![Build status](https://ci.appveyor.com/api/projects/status/966nb6l0q7j4bomm?svg=true)](https://ci.appveyor.com/project/Yortw/xid-net)
+[![NuGet Badge](https://buildstats.info/nuget/Xid.Net)](https://www.nuget.org/packages/Xid.Net/)
 
 # Platforms
 * .Net 4.0+
@@ -109,5 +109,5 @@ UUIDs are 16 bytes (128 bits) and 36 chars as string representation. Twitter Sno
 
 # License
 
-All source code is licensed under the [MIT License](https://raw.github.com/rs/xidnet/master/LICENSE).
-Original Xid repo license at; [Xid License](https://raw.github.com/rs/xidnet/master/LICENSE).
+All source code is licensed under the [MIT License](https://github.com/Yortw/Xid.Net/blob/master/LICENSE).
+Original Xid repo license at; [Xid License](https://github.com/rs/xid/blob/master/LICENSE).
