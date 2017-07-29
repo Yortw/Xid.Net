@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Xid.Net</id>
+    <version>1.0.0</version>
+    <title>Xid.Net</title>
+    <authors>Yortw</authors>
+    <owners>Yortw</owners>
+    <licenseUrl>https://github.com/Yortw/Xid.Net/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Yortw/Xid.Net</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Yortw/Xid.Net/master/XidIcon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Ported from https://github.com/rs/xid - A fast, low allocation, zero config, thread-safe 12 byte UUID generator based on the Mongo Object Id algorithm.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <language>en-NZ</language>
+    <tags>netstandard13 net40 uuid xid fast unique id</tags>
+    <dependencies>
+      <group targetFramework=".NetFramework4.0" />
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="System.Diagnostics.Process" version="4.3.0" />
+        <dependency id="System.Net.NameResolution" version="4.3.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Xid.Net.Net40\bin\Release\Xid*.dll" target="lib\net40" />
+    <file src="Xid.Net.Net40\bin\Release\Xid*.xml" target="lib\net40" />
+    <file src="Xid.Net.Net40\bin\Release\Xid*.pdb" target="lib\net40" />
+    <file src="Xid.NetStandard13\bin\Release\netstandard1.3\Xid*.dll" target="lib\netstandard13" />
+    <file src="Xid.NetStandard13\bin\Release\netstandard1.3\Xid*.xml" target="lib\netstandard13" />
+    <file src="Xid.NetStandard13\bin\Release\netstandard1.3\Xid*.pdb" target="lib\netstandard13" />
+    <file src="**\*.cs" target="src" />
+  </files>
+</package>
