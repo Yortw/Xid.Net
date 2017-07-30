@@ -62,6 +62,15 @@ namespace XidNet {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unexpected end of stream.
+        /// </summary>
+        internal static string UnexpectedEndOfStream {
+            get {
+                return ResourceManager.GetString("UnexpectedEndOfStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Length must be {0} bytes.
         /// </summary>
         internal static string XidByteArgLength {

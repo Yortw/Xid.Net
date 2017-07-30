@@ -72,6 +72,7 @@
     <Compile Include="Xid_New_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Xid_Comparison_Tests.cs" />
+    <Compile Include="Xid_StreamExtensions_Tests.cs" />
     <Compile Include="Xid_Parse_Tests.cs" />
     <Compile Include="Xid_Performance_Tests.cs" />
   </ItemGroup>

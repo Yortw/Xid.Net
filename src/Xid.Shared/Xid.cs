@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.IO;
 
 // Ported from https://github.com/rs/xid
 // Original license; https://github.com/rs/xid/blob/master/LICENSE
@@ -269,18 +270,18 @@ namespace XidNet
 
 		#region Instance Implementation
 
-		private byte _B1;
-		private byte _B2;
-		private byte _B3;
-		private byte _B4;
-		private byte _B5;
-		private byte _B6;
-		private byte _B7;
-		private byte _B8;
-		private byte _B9;
-		private byte _B10;
-		private byte _B11;
-		private byte _B12;
+		internal byte _B1;
+		internal byte _B2;
+		internal byte _B3;
+		internal byte _B4;
+		internal byte _B5;
+		internal byte _B6;
+		internal byte _B7;
+		internal byte _B8;
+		internal byte _B9;
+		internal byte _B10;
+		internal byte _B11;
+		internal byte _B12;
 
 		/// <summary>
 		/// Constructs a new <see cref="Xid"/> using the specified bytes.
