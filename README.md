@@ -99,6 +99,31 @@ UUIDs are 16 bytes (128 bits) and 36 chars as string representation. Twitter Sno
 - Unicity guaranteed for 16,777,216 (24 bits) unique ids per second and per host/process
 - Lock-free (i.e.: unlike UUIDv1 and v2)
 
+## Benchmarks
+**32-bit**<br/> 
+BenchmarkDotNet=v0.10.9, OS=Windows 10 Redstone 2 (10.0.15063)<br/>
+Processor=Intel Core i7-6820HQ CPU 2.70GHz (Skylake), ProcessorCount=8<br/>
+Frequency=2648436 Hz, Resolution=377.5813 ns, Timer=TSC<br/>
+[Host]     : .NET Framework 4.7 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.2101.1<br/>
+DefaultJob : .NET Framework 4.7 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.2101.1<br/>
+
+ |              Method |      Mean |     Error |    StdDev |
+ |-------------------- |----------:|----------:|----------:|
+ CreateXidBenchmark |  36.94 ns | 0.2248 ns | 0.2103 ns |
+ CreateGuidBenchmark | 201.27 ns | 6.9994 ns | 6.5473 ns |
+
+**64-bit**<br/>
+BenchmarkDotNet=v0.10.9, OS=Windows 10 Redstone 2 (10.0.15063)<br/>
+Processor=Intel Core i7-6820HQ CPU 2.70GHz (Skylake), ProcessorCount=8<br/>
+Frequency=2648436 Hz, Resolution=377.5813 ns, Timer=TSC<br/>
+[Host]     : .NET Framework 4.7 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.7.2101.1<br/>
+DefaultJob : .NET Framework 4.7 (CLR 4.0.30319.42000), 64bit RyuJIT-v4.7.2101.1<br/>
+
+ |              Method |     Mean |     Error |    StdDev |
+ |-------------------- |---------:|----------:|----------:|
+ CreateXidBenchmark | 23.56 ns | 0.1409 ns | 0.1100 ns |
+ CreateGuidBenchmark | 82.41 ns | 0.2656 ns | 0.2354 ns |
+
 ## References:
 
 - [https://github.com/rs/xid](https://github.com/rs/xid)
