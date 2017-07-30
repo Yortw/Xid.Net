@@ -25,8 +25,8 @@ namespace XidNet.Tests
 		[TestMethod]
 		public void Xid_New_GeneratesSequence()
 		{
-			Xid previousId = Xid.Empty;
-			for (int cnt = 0; cnt < 1000; cnt++)
+			var previousId = Xid.Empty;
+			for (var cnt = 0; cnt < 1000; cnt++)
 			{
 				var xid = Xid.NewXid();
 				if (cnt > 0)
@@ -45,14 +45,14 @@ namespace XidNet.Tests
 		[TestMethod]
 		public void Xid_New_GeneratesUniqueXids()
 		{
-			int maxIterations = 20000000;
+			var maxIterations = 20000000;
 			if (IntPtr.Size > 4)
 				maxIterations = 40000000; //Moa tests on 64 bit! (32 bit runs out of contiguous memory for dictionary)
 
 			var unique = new Dictionary<Xid, Xid>(maxIterations);
 			var sw = new System.Diagnostics.Stopwatch();
 			sw.Start();
-			for (int cnt = 0; cnt < maxIterations; cnt++)
+			for (var cnt = 0; cnt < maxIterations; cnt++)
 			{
 				var x = Xid.NewXid();
 				unique.Add(x, x);
@@ -64,10 +64,10 @@ namespace XidNet.Tests
 		[TestMethod]
 		public void Xid_New_GeneratesUniqueXids_Threaded()
 		{
-			int maxIterations = 10000000;
+			var maxIterations = 10000000;
 
-			int threadCount = Math.Max(2, Environment.ProcessorCount);
-			int step = maxIterations / threadCount;
+			var threadCount = Math.Max(2, Environment.ProcessorCount);
+			var step = maxIterations / threadCount;
 
 			//var unique = new Dictionary<string, Xid>(maxIterations);
 			var unique = new Dictionary<Xid, Xid>(maxIterations / 2);
@@ -75,7 +75,7 @@ namespace XidNet.Tests
 			var threads = new List<System.Threading.Thread>(threadCount);
 			var dictionaries = new List<Dictionary<Xid, Xid>>(threadCount);
 
-			for (int tcnt = 0; tcnt < threadCount; tcnt++)
+			for (var tcnt = 0; tcnt < threadCount; tcnt++)
 			{
 				dictionaries.Add(new Dictionary<Xid, Xid>(step));
 
@@ -91,10 +91,10 @@ namespace XidNet.Tests
 							var i = (int)oa[0];
 							var dict = (Dictionary<Xid, Xid>)oa[1];
 
-							int start = i * step;
-							int end = start + step;
+							var start = i * step;
+							var end = start + step;
 
-							for (int cnt = start; cnt < end; cnt++)
+							for (var cnt = start; cnt < end; cnt++)
 							{
 								var x = Xid.NewXid();
 								dict.Add(x, x);
@@ -106,7 +106,7 @@ namespace XidNet.Tests
 
 			var sw = new System.Diagnostics.Stopwatch();
 			sw.Start();
-			for (int cnt = 0; cnt < threadCount; cnt++)
+			for (var cnt = 0; cnt < threadCount; cnt++)
 			{
 				threads[cnt].Start(new object[] { cnt, dictionaries[cnt] });
 			}
@@ -133,7 +133,7 @@ namespace XidNet.Tests
 		public void Xid_New_NewXidsAreKSorted()
 		{
 			var lastXid = Xid.Empty;
-			for (int cnt = 0; cnt < 1000000; cnt++)
+			for (var cnt = 0; cnt < 1000000; cnt++)
 			{
 				var x = Xid.NewXid();
 				Assert.AreEqual(1, x.CompareTo(lastXid));
@@ -149,7 +149,7 @@ namespace XidNet.Tests
 		{
 			if (v1.Length != v2.Length) return false;
 
-			for (int cnt = 0; cnt < v1.Length; cnt++)
+			for (var cnt = 0; cnt < v1.Length; cnt++)
 			{
 				Assert.AreEqual(v1[cnt], v2[cnt]);
 			}

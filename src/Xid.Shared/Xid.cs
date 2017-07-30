@@ -59,8 +59,6 @@ namespace XidNet
 
 		private const long FileTimeOffset = 584388 * 864000000000;
 
-		private static object o1 = new object();
-
 		/// <summary>
 		/// Creates a new <see cref="Xid"/> value.
 		/// </summary>
@@ -96,7 +94,7 @@ namespace XidNet
 			retVal._B9 = ProcessId[1];
 
 			// Counter, 3 bytes, big endian
-			int c = System.Threading.Interlocked.Increment(ref Counter);
+			var c = System.Threading.Interlocked.Increment(ref Counter);
 			retVal._B10 = (byte)(c >> 16);
 			retVal._B11 = (byte)(c >> 8);
 			retVal._B12 = (byte)c;
@@ -158,7 +156,7 @@ namespace XidNet
 		private static bool ContainsOnlyValidXidChars(string encodedXid)
 		{
 			Char c;
-			for (int i = 0; i < encodedXid.Length; i++)
+			for (var i = 0; i < encodedXid.Length; i++)
 			{
 				c = encodedXid[i];
 				if (c < '0' || (c > '9' && c < 'a') || c > 'v')
@@ -171,7 +169,7 @@ namespace XidNet
 
 		private static byte[] InternalParse(string xidStr)
 		{
-			byte[] retVal = new byte[Xid.Length];
+			var retVal = new byte[Xid.Length];
 
 			retVal[0] = (byte)(DecodeMap[xidStr[0]] << 3 | DecodeMap[xidStr[1]] >> 2);
 			retVal[1] = (byte)(DecodeMap[xidStr[1]] << 6 | DecodeMap[xidStr[2]] << 1 | DecodeMap[xidStr[3]] >> 4);
@@ -232,7 +230,7 @@ namespace XidNet
 
 		private static byte[] GenerateMachineIdBytes()
 		{
-			int machineId = 0;
+			var machineId = 0;
 			var machineName = ReadMachineName();
 			if (!String.IsNullOrEmpty(machineName))
 			{
@@ -256,12 +254,12 @@ namespace XidNet
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2207:InitializeValueTypeStaticFieldsInline", Justification = "Not really possible given the array initailization required here.")]
 		static Xid()
 		{
-			for (int i = 0; i < DecodeMap.Length; i++)
+			for (var i = 0; i < DecodeMap.Length; i++)
 			{
 				DecodeMap[i] = 0xFF;
 			}
 
-			for (int i = 0; i < Encoding.Length; i++)
+			for (var i = 0; i < Encoding.Length; i++)
 			{
 				DecodeMap[Encoding[i]] = (byte)i;
 			}
@@ -566,7 +564,7 @@ namespace XidNet
 		{
 			unchecked // Overflow is fine, just wrap
 			{
-				int hash = 17;
+				var hash = 17;
 
 				hash = hash * HashMultiplier + _B1;
 				hash = hash * HashMultiplier + _B2;

@@ -21,7 +21,7 @@ namespace XidNet.Tests
 			var iterations = 20000000;
 			var sw = new System.Diagnostics.Stopwatch();
 			sw.Start();
-			for (int cnt = 0; cnt < iterations; cnt++)
+			for (var cnt = 0; cnt < iterations; cnt++)
 			{
 				var x = Xid.NewXid();
 			}
