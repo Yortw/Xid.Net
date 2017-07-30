@@ -98,7 +98,7 @@ namespace XidNet.Tests
 		[TestMethod]
 		public void Xid_TryParse_ReturnsFalseOnEmptyString()
 		{
-			string s = String.Empty;
+			var s = String.Empty;
 			var ok = Xid.TryParse(s, out Xid x);
 			Assert.IsFalse(ok);
 		}
@@ -106,7 +106,7 @@ namespace XidNet.Tests
 		[TestMethod]
 		public void Xid_TryParse_ReturnsFalseOnShortString()
 		{
-			string s = "9m4e2mr0ui3e8a215g";
+			var s = "9m4e2mr0ui3e8a215g";
 			var ok = Xid.TryParse(s, out Xid x);
 			Assert.IsFalse(ok);
 		}
@@ -114,7 +114,7 @@ namespace XidNet.Tests
 		[TestMethod]
 		public void Xid_TryParse_ReturnsFalseOnLongString()
 		{
-			string s = "9m4e2mr0ui3e8a215n4g9m4e2mr0ui3e8a215n4g";
+			var s = "9m4e2mr0ui3e8a215n4g9m4e2mr0ui3e8a215n4g";
 			var ok = Xid.TryParse(s, out Xid x);
 			Assert.IsFalse(ok);
 		}
@@ -122,7 +122,7 @@ namespace XidNet.Tests
 		[TestMethod]
 		public void Xid_TryParse_ReturnsFalseWhenStringNotValidXid()
 		{
-			string s = "9m4e2mrZui3e8a215n4g";
+			var s = "9m4e2mrZui3e8a215n4g";
 			var ok = Xid.TryParse(s, out Xid x);
 			Assert.IsFalse(ok);
 		}

@@ -11,5 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCommon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XidStreamExtensions.cs" />
   </ItemGroup>
 </Project>
