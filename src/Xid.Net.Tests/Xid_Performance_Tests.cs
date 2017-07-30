@@ -29,20 +29,5 @@ namespace XidNet.Tests
 			System.Diagnostics.Trace.WriteLine(sw.Elapsed);
 			System.Diagnostics.Trace.WriteLine(((Convert.ToDouble(sw.Elapsed.TotalMilliseconds * TimeSpan.TicksPerMillisecond) / Convert.ToDouble(iterations)) * 100).ToString("#0.00") + "ns per op");
 		}
-
-		//		For performance comparison with System.Guid only.
-		//		[TestMethod]
-		//		public void Guid_New_PerformanceComparison()
-		//		{
-		//			var sw = new System.Diagnostics.Stopwatch();
-		//			sw.Start();
-		//			for (int cnt = 0; cnt < 20000000; cnt++)
-		//			{
-		//				var x = System.Guid.NewGuid();
-		//			}
-		//			sw.Stop();
-		//			System.Diagnostics.Trace.WriteLine(sw.Elapsed);
-		//			System.Diagnostics.Trace.WriteLine(((Convert.ToDouble(sw.Elapsed.TotalMilliseconds * 10000000D) / 20000000D)).ToString() + "ns per op");
-		//		}
 	}
 }
