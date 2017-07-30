@@ -65,8 +65,6 @@ namespace XidNet.Tests
 		public void Xid_New_GeneratesUniqueXids_Threaded()
 		{
 			int maxIterations = 10000000;
-			if (IntPtr.Size > 4)
-				maxIterations = 40000000; //Moa tests on 64 bit! (32 bit runs out of contiguous memory for dictionary)
 
 			int threadCount = Math.Max(2, Environment.ProcessorCount);
 			int step = maxIterations / threadCount;

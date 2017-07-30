@@ -153,8 +153,10 @@ namespace XidNet
 
 		private static bool ContainsOnlyValidXidChars(string encodedXid)
 		{
-			foreach (char c in encodedXid)
+			Char c;
+			for (int i = 0; i < encodedXid.Length; i++)
 			{
+				c = encodedXid[i];
 				if (c < '0' || (c > '9' && c < 'a') || c > 'v')
 				{
 					return false;
@@ -167,28 +169,18 @@ namespace XidNet
 		{
 			byte[] retVal = new byte[Xid.Length];
 
-			////TODO: This is shitty when called from tryparse.
-			////One of the main reasons for tryparse is to avoid the overhead
-			////of exceptions. Can we do better? 
-			//try
-			//{
-				retVal[0] = (byte)(DecodeMap[xidStr[0]] << 3 | DecodeMap[xidStr[1]] >> 2);
-				retVal[1] = (byte)(DecodeMap[xidStr[1]] << 6 | DecodeMap[xidStr[2]] << 1 | DecodeMap[xidStr[3]] >> 4);
-				retVal[2] = (byte)(DecodeMap[xidStr[3]] << 4 | DecodeMap[xidStr[4]] >> 1);
-				retVal[3] = (byte)(DecodeMap[xidStr[4]] << 7 | DecodeMap[xidStr[5]] << 2 | DecodeMap[xidStr[6]] >> 3);
-				retVal[4] = (byte)(DecodeMap[xidStr[6]] << 5 | DecodeMap[xidStr[7]]);
-				retVal[5] = (byte)(DecodeMap[xidStr[8]] << 3 | DecodeMap[xidStr[9]] >> 2);
-				retVal[6] = (byte)(DecodeMap[xidStr[9]] << 6 | DecodeMap[xidStr[10]] << 1 | DecodeMap[xidStr[11]] >> 4);
-				retVal[7] = (byte)(DecodeMap[xidStr[11]] << 4 | DecodeMap[xidStr[12]] >> 1);
-				retVal[8] = (byte)(DecodeMap[xidStr[12]] << 7 | DecodeMap[xidStr[13]] << 2 | DecodeMap[xidStr[14]] >> 3);
-				retVal[9] = (byte)(DecodeMap[xidStr[14]] << 5 | DecodeMap[xidStr[15]]);
-				retVal[10] = (byte)(DecodeMap[xidStr[16]] << 3 | DecodeMap[xidStr[17]] >> 2);
-				retVal[11] = (byte)(DecodeMap[xidStr[17]] << 6 | DecodeMap[xidStr[18]] << 1 | DecodeMap[xidStr[19]] >> 4);
-			//}
-			//catch (IndexOutOfRangeException)
-			//{
-			//	return null;
-			//}
+			retVal[0] = (byte)(DecodeMap[xidStr[0]] << 3 | DecodeMap[xidStr[1]] >> 2);
+			retVal[1] = (byte)(DecodeMap[xidStr[1]] << 6 | DecodeMap[xidStr[2]] << 1 | DecodeMap[xidStr[3]] >> 4);
+			retVal[2] = (byte)(DecodeMap[xidStr[3]] << 4 | DecodeMap[xidStr[4]] >> 1);
+			retVal[3] = (byte)(DecodeMap[xidStr[4]] << 7 | DecodeMap[xidStr[5]] << 2 | DecodeMap[xidStr[6]] >> 3);
+			retVal[4] = (byte)(DecodeMap[xidStr[6]] << 5 | DecodeMap[xidStr[7]]);
+			retVal[5] = (byte)(DecodeMap[xidStr[8]] << 3 | DecodeMap[xidStr[9]] >> 2);
+			retVal[6] = (byte)(DecodeMap[xidStr[9]] << 6 | DecodeMap[xidStr[10]] << 1 | DecodeMap[xidStr[11]] >> 4);
+			retVal[7] = (byte)(DecodeMap[xidStr[11]] << 4 | DecodeMap[xidStr[12]] >> 1);
+			retVal[8] = (byte)(DecodeMap[xidStr[12]] << 7 | DecodeMap[xidStr[13]] << 2 | DecodeMap[xidStr[14]] >> 3);
+			retVal[9] = (byte)(DecodeMap[xidStr[14]] << 5 | DecodeMap[xidStr[15]]);
+			retVal[10] = (byte)(DecodeMap[xidStr[16]] << 3 | DecodeMap[xidStr[17]] >> 2);
+			retVal[11] = (byte)(DecodeMap[xidStr[17]] << 6 | DecodeMap[xidStr[18]] << 1 | DecodeMap[xidStr[19]] >> 4);
 
 			return retVal;
 		}
