@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
+// Ported from https://github.com/rs/xid
+// Original license; https://github.com/rs/xid/blob/master/LICENSE
+// Xid.Net Latest code/license; https://github.com/Yortw/Xid.Net
+
 namespace XidNet
 {
 	/// <summary>
