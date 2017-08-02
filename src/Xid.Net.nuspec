@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>Xid.Net</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>Xid.Net</title>
     <authors>Yortw</authors>
     <owners>Yortw</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/Yortw/Xid.Net/master/XidIcon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Ported from https://github.com/rs/xid - A fast, low allocation, zero config, thread-safe 12 byte UUID generator based on the Mongo Object Id algorithm.</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>Minor internal improvements. Fix Net40 library so it targets net40 not net45.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <language>en-NZ</language>
     <tags>netstandard13 net40 uuid xid fast unique id</tags>
