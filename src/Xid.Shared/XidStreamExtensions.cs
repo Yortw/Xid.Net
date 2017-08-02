@@ -62,7 +62,9 @@ namespace XidNet
 			);
 		}
 
+#if SUPPORTS_AGGRESSIVEINLINING
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+#endif
 		private static byte ReadByteOrError(Stream stream)
 		{
 			var retVal = stream.ReadByte();

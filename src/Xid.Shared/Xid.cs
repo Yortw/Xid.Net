@@ -639,7 +639,9 @@ namespace XidNet
 			return 0;
 		}
 
+#if SUPPORTS_AGGRESSIVEINLINING
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+#endif
 		private static int CompareUnequalBytes(byte me, byte them)
 		{
 			if (me < them) return -1;
