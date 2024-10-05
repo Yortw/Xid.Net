@@ -505,7 +505,7 @@ namespace XidNet
 		/// <param name="format">Not currently used.</param>
 		/// <param name="formatProvider">Not currently used.</param>
 		/// <returns>Return a string containing a base 32 representation of the value of this <see cref="Xid"/>.</returns>
-		public string ToString(string format, IFormatProvider formatProvider)
+		public string ToString(string? format, IFormatProvider? formatProvider)
 		{
 			var dest = new char[EncodedLength];
 
