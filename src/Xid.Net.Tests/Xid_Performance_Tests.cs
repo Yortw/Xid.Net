@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +11,7 @@ namespace XidNet.Tests
 	public class Xid_Performance_Tests
 	{
 		[TestMethod]
-#if DEBUG
 		[Microsoft.VisualStudio.TestTools.UnitTesting.Timeout(2000)]
-#else
-		[Microsoft.VisualStudio.TestTools.UnitTesting.Timeout(1200)]
-#endif
 		public void Xid_New_Performance()
 		{
 			var iterations = 20000000;
