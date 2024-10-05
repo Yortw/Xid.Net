@@ -40,8 +40,12 @@ namespace XidNet {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XidNet.ErrorMessages", typeof(ErrorMessages).GetType().Assembly);
-                    resourceMan = temp;
+#if NET40_OR_GREATER
+          global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XidNet.ErrorMessages", typeof(ErrorMessages).GetType().Assembly);
+#else
+          global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("XidNet.ErrorMessages", typeof(ErrorMessages).GetTypeInfo().Assembly);
+#endif
+					resourceMan = temp;
                 }
                 return resourceMan;
             }

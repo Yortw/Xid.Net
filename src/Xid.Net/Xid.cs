@@ -556,7 +556,7 @@ namespace XidNet
 		/// </summary>
 		/// <param name="obj">A value to check equality with.</param>
 		/// <returns>True if <paramref name="obj"/> is an equal Xid value.</returns>
-		public override readonly bool Equals(object obj)
+		public override readonly bool Equals(object? obj)
 		{
 			if (obj == null || obj is not Xid) return false;
 
@@ -603,7 +603,7 @@ namespace XidNet
 		/// obj in the sort order. Zero This instance occurs in the same position in the
 		/// sort order as obj. Greater than zero This instance follows obj in the sort order.		
 		/// </returns>
-		public readonly int CompareTo(object obj)
+		public readonly int CompareTo(object? obj)
 		{
 			if (obj == null) return 1;
 			if (obj is not Xid) throw new ArgumentException("obj must be a Xid", nameof(obj));
