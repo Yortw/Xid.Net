@@ -177,9 +177,9 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xid.Net.Net40\Xid.Net.Net40.csproj">
-      <Project>{3df1da3e-2c85-4068-a28f-e9dad60a7dce}</Project>
-      <Name>Xid.Net.Net40</Name>
+    <ProjectReference Include="..\Xid.Net\Xid.Net.csproj">
+      <Project>{28dd383e-9b3b-48f5-a680-3ada5424ccce}</Project>
+      <Name>Xid.Net</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

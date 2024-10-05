@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net40;net45;net48</TargetFrameworks>
+    <Version>$(VersionPrefix)2.0.0</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Xid.Net</Title>
+    <Authors>Yortw</Authors>
+    <Company>Yortw</Company>
+    <Description>Ported from https://github.com/rs/xid - A fast, low allocation, zero config, thread-safe 12 byte UUID generator based on the Mongo Object Id algorithm.</Description>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>netstandard13 net40 uuid xid fast unique id</PackageTags>
+    <PackageReleaseNotes>A new version of the older Xid.Net package.
+
+* Fixes for machine id generation
+* Package id now uses reserved Yort. prefix
+* Modernised projects/solution with multi-targeting
+* Support for additional platforms
+</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/Yortw/Xid.Net.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Yortw/Xid.Net</PackageProjectUrl>
+    <Copyright>Copyright 2017</Copyright>
+    <PackageIcon>XidIcon.png</PackageIcon>
+    <PackageId>Yort.Xid.Net</PackageId>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>XidNet</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition="'$(Framework)'=='NET40'">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition="'$(Framework)'=='NET45'">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition="'$(Framework)'=='NET48'">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\XidIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
