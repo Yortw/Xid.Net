@@ -207,7 +207,11 @@ namespace XidNet
 
 		private static byte[] GenerateProcessIdBytes()
 		{
+#if SUPPORTS_ENVIRONMENTPROCESSID
+			var pid = System.Environment.ProcessId;
+#else
 			var pid = System.Diagnostics.Process.GetCurrentProcess().Id;
+#endif
 			var retVal = new byte[2];
 			retVal[0] = (byte)(pid >> 8);
 			retVal[1] = (byte)pid;
@@ -232,19 +236,28 @@ namespace XidNet
 			var machineName = ReadMachineName();
 			if (!String.IsNullOrEmpty(machineName))
 			{
-				using (var md5 = System.Security.Cryptography.MD5.Create())
-				{
-					var rawBytes = md5.ComputeHash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName));
+				var rawBytes = ComputeMD5Hash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName));
 
-					retVal[0] = rawBytes[0];
-					retVal[1] = rawBytes[2];
-					retVal[2] = rawBytes[3];
-				}
+				retVal[0] = rawBytes[0];
+				retVal[1] = rawBytes[2];
+				retVal[2] = rawBytes[3];
 			}
 			else
 				_Rand.NextBytes(retVal);
 
 			return retVal;
+		}
+
+		private static byte[] ComputeMD5Hash(byte[] input)
+		{
+#if SUPPORTS_STATICMD5HASH
+			return System.Security.Cryptography.MD5.HashData(input);
+#else
+			using (var md5 = System.Security.Cryptography.MD5.Create())
+			{
+				return md5.ComputeHash(input);
+			}
+#endif
 		}
 
 		private static string ReadMachineName()

@@ -36,9 +36,13 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DefineConstants Condition="'$(Framework)'=='NET40'">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
-    <DefineConstants Condition="'$(Framework)'=='NET45'">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
-    <DefineConstants Condition="'$(Framework)'=='NET48'">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net40' ">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net45' ">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net48' ">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net5.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net6.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net7.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net8.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
