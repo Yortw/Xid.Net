@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
@@ -231,22 +231,22 @@ namespace XidNet
 
 		private static byte[] GenerateMachineIdBytes()
 		{
-			var rawBytes = new byte[32];
+			var retVal = new byte[3];
+
 			var machineName = ReadMachineName();
 			if (!String.IsNullOrEmpty(machineName))
 			{
 				using (var md5 = System.Security.Cryptography.MD5.Create())
 				{
-					rawBytes = md5.ComputeHash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName));
+					var rawBytes = md5.ComputeHash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName));
+
+					retVal[0] = rawBytes[0];
+					retVal[1] = rawBytes[2];
+					retVal[2] = rawBytes[3];
 				}
 			}
 			else
-				_Rand.NextBytes(rawBytes);
-
-			var retVal = new byte[3];
-			retVal[0] = rawBytes[0];
-			retVal[1] = rawBytes[2];
-			retVal[2] = rawBytes[3];
+				_Rand.NextBytes(retVal);
 
 			return retVal;
 		}
