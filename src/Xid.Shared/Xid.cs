@@ -231,20 +231,19 @@ namespace XidNet
 
 		private static byte[] GenerateMachineIdBytes()
 		{
-			var machineId = 0;
+			var rawBytes = new byte[32];
 			var machineName = ReadMachineName();
 			if (!String.IsNullOrEmpty(machineName))
 			{
 				using (var md5 = System.Security.Cryptography.MD5.Create())
 				{
-					machineId = md5.ComputeHash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName)).Sum((b) => (int)b);
+					rawBytes = md5.ComputeHash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName));
 				}
 			}
 			else
-				machineId = _Rand.Next(0, UInt16.MaxValue);
+				_Rand.NextBytes(rawBytes);
 
 			var retVal = new byte[3];
-			var rawBytes = BitConverter.GetBytes(machineId);
 			retVal[0] = rawBytes[0];
 			retVal[1] = rawBytes[2];
 			retVal[2] = rawBytes[3];
