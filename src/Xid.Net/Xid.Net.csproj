@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net40;net45;net48;netstandard1.3;netstandard2.0;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <Version>$(VersionPrefix)2.0.1</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Xid.Net</Title>
+    <Authors>Yortw</Authors>
+    <Company>Yortw</Company>
+    <Description>Ported from https://github.com/rs/xid - A fast, low allocation, zero config, thread-safe 12 byte UUID generator based on the Mongo Object Id algorithm.</Description>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>uuid xid fast unique id</PackageTags>
+    <PackageReleaseNotes>A new version of the older Xid.Net package.
+
+* Fixes for machine id generation
+* Package id now uses reserved Yort. prefix
+* Modernised projects/solution with multi-targeting
+* Support for additional platforms
+</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/Yortw/Xid.Net.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Yortw/Xid.Net</PackageProjectUrl>
+    <Copyright>Copyright 2017</Copyright>
+    <PackageIcon>XidIcon.png</PackageIcon>
+    <PackageId>Yort.Xid.Net</PackageId>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>XidNet</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net40' ">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net45' ">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net48' ">$(DefineConstants);SUPPORTS_ENVIRONMENTMACHIENNAME</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net5.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net6.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net7.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net8.0' ">$(DefineConstants);SUPPORTS_STATICMD5HASH;SUPPORTS_ENVIRONMENTPROCESSID</DefineConstants>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3'">
+    <PackageReference Include="System.Diagnostics.Process" Version="4.3.0" />
+    <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\XidIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ErrorMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

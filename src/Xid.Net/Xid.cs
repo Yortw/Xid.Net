@@ -54,11 +54,9 @@ namespace XidNet
 		/// <summary>
 		/// An empty Xid, the defaut value for a new Xid using the default constructor.
 		/// </summary>
-		public static readonly Xid Empty = new Xid();
+		public static readonly Xid Empty = new();
 
 		#endregion
-
-		private const long FileTimeOffset = 584388 * 864000000000;
 
 		/// <summary>
 		/// Creates a new <see cref="Xid"/> value.
@@ -192,26 +190,28 @@ namespace XidNet
 
 		#region Private Constants & Static Members
 
-		private const int DecodedLen = 15; // len after base32 decoding with the padded data encoding stores a custom version of the base32 encoding with lower case letters.
 		private const string Encoding = "0123456789abcdefghijklmnopqrstuv";
-		private const int MaxCounter = 16777216;
 		private const int HalfMaxCounter = 8388608;
 		private const int HashMultiplier = 486187739;
 		private static readonly long UnixEpochTicks = 621355968000000000;
 
 		private static readonly byte[] DecodeMap = new byte[256];
-		private static readonly Random _Rand = new Random();
+		private static readonly Random _Rand = new();
 
 		//private static long LastTimestamp = 0;
 
 		private static volatile int Counter = GenerateRandomSeed();
-		private static byte[] ProcessId = GenerateProcessIdBytes();
+		private readonly static byte[] ProcessId = GenerateProcessIdBytes();
 
-		private static byte[] MachineID = GenerateMachineIdBytes();
+		private readonly static byte[] MachineID = GenerateMachineIdBytes();
 
 		private static byte[] GenerateProcessIdBytes()
 		{
+#if SUPPORTS_ENVIRONMENTPROCESSID
+			var pid = System.Environment.ProcessId;
+#else
 			var pid = System.Diagnostics.Process.GetCurrentProcess().Id;
+#endif
 			var retVal = new byte[2];
 			retVal[0] = (byte)(pid >> 8);
 			retVal[1] = (byte)pid;
@@ -236,14 +236,11 @@ namespace XidNet
 			var machineName = ReadMachineName();
 			if (!String.IsNullOrEmpty(machineName))
 			{
-				using (var md5 = System.Security.Cryptography.MD5.Create())
-				{
-					var rawBytes = md5.ComputeHash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName));
+				var rawBytes = ComputeMD5Hash(System.Text.UTF8Encoding.UTF8.GetBytes(machineName));
 
-					retVal[0] = rawBytes[0];
-					retVal[1] = rawBytes[2];
-					retVal[2] = rawBytes[3];
-				}
+				retVal[0] = rawBytes[0];
+				retVal[1] = rawBytes[2];
+				retVal[2] = rawBytes[3];
 			}
 			else
 				_Rand.NextBytes(retVal);
@@ -251,7 +248,34 @@ namespace XidNet
 			return retVal;
 		}
 
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2207:InitializeValueTypeStaticFieldsInline", Justification = "Not really possible given the array initailization required here.")]
+		private static byte[] ComputeMD5Hash(byte[] input)
+		{
+#if SUPPORTS_STATICMD5HASH
+			return System.Security.Cryptography.MD5.HashData(input);
+#else
+			using (var md5 = System.Security.Cryptography.MD5.Create())
+			{
+				return md5.ComputeHash(input);
+			}
+#endif
+		}
+
+		private static string ReadMachineName()
+		{
+#if SUPPORTS_ENVIRONMENTMACHIENNAME
+			return Environment.MachineName;
+#else
+			//Not using the null coalescing operator as it doesn't treat "" the same as null.
+			var retVal = Environment.GetEnvironmentVariable("COMPUTERNAME");
+			if (String.IsNullOrEmpty(retVal))
+				retVal = Environment.GetEnvironmentVariable("HOSTNAME");
+			if (String.IsNullOrEmpty(retVal))
+				retVal = System.Net.Dns.GetHostName();
+
+			return retVal;
+#endif
+		}
+
 		static Xid()
 		{
 			for (var i = 0; i < DecodeMap.Length; i++)
@@ -265,7 +289,7 @@ namespace XidNet
 			}
 		}
 
-		#endregion
+#endregion
 
 		#region Instance Implementation
 
@@ -352,7 +376,6 @@ namespace XidNet
 		/// <param name="b11">The second byte of the counter value.</param>
 		/// <param name="b12">The third byte of the counter value.</param>
 		/// <seealso cref="ToBytes()"/>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b")]
 		public Xid(byte b1, byte b2, byte b3, byte b4, byte b5, byte b6, byte b7, byte b8, byte b9, byte b10, byte b11, byte b12)
 		{
 			_B1 = b1;
@@ -373,7 +396,7 @@ namespace XidNet
 		/// Encodes the value of this <see cref="Xid"/> as a base 32 string.
 		/// </summary>
 		/// <returns>A string containing the base 32 encoded value of this <see cref="Xid"/>.</returns>
-		public override string ToString()
+		public override readonly string ToString()
 		{
 			return ToString(null, null);
 		}
@@ -382,7 +405,7 @@ namespace XidNet
 		/// Returns a new byte array containing the individual bytes that make up this <see cref="Xid"/> value.
 		/// </summary>
 		/// <returns>A new byte array containing the raw values of this xid.</returns>
-		public byte[] ToBytes()
+		public readonly byte[] ToBytes()
 		{
 			var retVal = new Byte[Length];
 			ToBytes(retVal);
@@ -393,7 +416,7 @@ namespace XidNet
 		/// Fills the provided byte array with the values of this xid.
 		/// </summary>
 		/// <param name="buffer">The byte array to fill.</param>
-		public void ToBytes(byte[] buffer)
+		public readonly void ToBytes(byte[] buffer)
 		{
 			ToBytes(buffer, 0);
 		}
@@ -405,7 +428,7 @@ namespace XidNet
 		/// <param name="offset">The first index in <paramref name="buffer"/> at which to start writing the <see cref="Xid"/> values.</param>
 		/// <exception cref="ArgumentNullException">Thrown if <paramref name="buffer"/> is null.</exception>
 		/// <exception cref="ArgumentException">Thrown if the length of the buffer less the offset is less <see cref="Length"/> of a Xid, or if the offset plus the length of a Xid would overflow an integer value.</exception>
-		public void ToBytes(byte[] buffer, int offset)
+		public readonly void ToBytes(byte[] buffer, int offset)
 		{
 			if (buffer == null) throw new ArgumentNullException(nameof(buffer));
 			if (buffer.Length < offset + Xid.Length) throw new ArgumentException(ErrorMessages.XidInsufficientBytes, nameof(buffer));
@@ -429,8 +452,7 @@ namespace XidNet
 		/// Returns the time stamp portion of this Xid as a <see cref="System.DateTime"/> value.
 		/// </summary>
 		/// <returns>A <see cref="System.DateTime"/> instance representing the creation date &amp; time of the Xid with second accuracy.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Not appropriate, not a simple property.")]
-		public DateTime GetTimestamp()
+		public readonly DateTime GetTimestamp()
 		{
 			return new DateTime
 			(
@@ -452,18 +474,17 @@ namespace XidNet
 		/// Returns the 3 byte identifier of the machine that generated this Xid, as a byte array.
 		/// </summary>
 		/// <returns>A byte array containing the machine identifier.</returns>
-		public byte[] GetMachineId()
+		public readonly byte[] GetMachineId()
 		{
-			return new byte[] { _B5, _B6, _B7 };
+			return [_B5, _B6, _B7];
 		}
 
 		/// <summary>
 		/// Returns the 2 byte process id of this Xid as a <see cref="ushort"/>.
 		/// </summary>
 		/// <returns></returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Not appropriate, not a simple property..")]
 		[CLSCompliant(false)]
-		public UInt16 GetProcessId()
+		public readonly UInt16 GetProcessId()
 		{
 			return Convert.ToUInt16
 			(
@@ -475,8 +496,7 @@ namespace XidNet
 		/// Returns the 3-byte sequential value portion of this Xid.
 		/// </summary>
 		/// <returns>An integer containing the value of the counter used to generate this Xid.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Not appropriate, not a simple property.")]
-		public Int32 GetCounter()
+		public readonly Int32 GetCounter()
 		{
 			return (Int32)((UInt32)(_B10) << 16 | (UInt32)_B11 << 8 | (UInt32)_B12);
 		}
@@ -489,7 +509,7 @@ namespace XidNet
 		/// <param name="format">Not currently used.</param>
 		/// <param name="formatProvider">Not currently used.</param>
 		/// <returns>Return a string containing a base 32 representation of the value of this <see cref="Xid"/>.</returns>
-		public string ToString(string format, IFormatProvider formatProvider)
+		public readonly string ToString(string? format, IFormatProvider? formatProvider)
 		{
 			var dest = new char[EncodedLength];
 
@@ -526,7 +546,7 @@ namespace XidNet
 		/// </summary>
 		/// <param name="other">Another <see cref="Xid"/> to compare to.</param>
 		/// <returns>True if the <see cref="Xid"/>s represent the same value, otherwise false.</returns>
-		public bool Equals(Xid other)
+		public readonly bool Equals(Xid other)
 		{
 			return _B1 == other._B1
 				&& _B2 == other._B2
@@ -549,9 +569,9 @@ namespace XidNet
 		/// </summary>
 		/// <param name="obj">A value to check equality with.</param>
 		/// <returns>True if <paramref name="obj"/> is an equal Xid value.</returns>
-		public override bool Equals(object obj)
+		public override readonly bool Equals(object? obj)
 		{
-			if (obj == null || !(obj is Xid)) return false;
+			if (obj == null || obj is not Xid) return false;
 
 			return Equals((Xid)obj);
 		}
@@ -560,7 +580,7 @@ namespace XidNet
 		/// Returns the hashcode for this instance.
 		/// </summary>
 		/// <returns>An integer value containing the hashcode for this instance.</returns>
-		public override int GetHashCode()
+		public override readonly int GetHashCode()
 		{
 			unchecked // Overflow is fine, just wrap
 			{
@@ -596,10 +616,10 @@ namespace XidNet
 		/// obj in the sort order. Zero This instance occurs in the same position in the
 		/// sort order as obj. Greater than zero This instance follows obj in the sort order.		
 		/// </returns>
-		public int CompareTo(object obj)
+		public readonly int CompareTo(object? obj)
 		{
 			if (obj == null) return 1;
-			if (!(obj is Xid)) throw new ArgumentException("obj must be a Xid", nameof(obj));
+			if (obj is not Xid) throw new ArgumentException("obj must be a Xid", nameof(obj));
 
 			return CompareTo((Xid)obj);
 		}
@@ -620,7 +640,7 @@ namespace XidNet
 		/// obj in the sort order. Zero This instance occurs in the same position in the
 		/// sort order as obj. Greater than zero This instance follows obj in the sort order.		
 		/// </returns>
-		public int CompareTo(Xid other)
+		public readonly int CompareTo(Xid other)
 		{
 			if (other._B1 != this._B1) return CompareUnequalBytes(this._B1, other._B1);
 			if (other._B2 != this._B2) return CompareUnequalBytes(this._B2, other._B2);
@@ -660,8 +680,6 @@ namespace XidNet
 		/// <param name="a">A <see cref="Xid"/> to equality check.</param>
 		/// <param name="b">A <see cref="Xid"/> to equality check.</param>
 		/// <returns>True if <paramref name="a"/> and <paramref name="b"/> represent the same value.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b")]
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "a")]
 		public static bool operator ==(Xid a, Xid b)
 		{
 			return a.Equals(b);
@@ -673,8 +691,6 @@ namespace XidNet
 		/// <param name="a">A <see cref="Xid"/> to inequality check.</param>
 		/// <param name="b">A <see cref="Xid"/> to inequality check.</param>
 		/// <returns>True if <paramref name="a"/> and <paramref name="b"/> do not represent the same value.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b")]
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "a")]
 		public static bool operator !=(Xid a, Xid b)
 		{
 			return !(a == b);
@@ -686,8 +702,6 @@ namespace XidNet
 		/// <param name="a">A <see cref="Xid"/> to compare.</param>
 		/// <param name="b">A <see cref="Xid"/> to compare.</param>
 		/// <returns>True if <paramref name="a"/> is greater than <paramref name="b"/>.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b")]
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "a")]
 		public static bool operator >(Xid a, Xid b)
 		{
 			return a.CompareTo(b) == 1;
@@ -699,8 +713,6 @@ namespace XidNet
 		/// <param name="a">A <see cref="Xid"/> to compare.</param>
 		/// <param name="b">A <see cref="Xid"/> to compare.</param>
 		/// <returns>True if <paramref name="a"/> is greater than or equal to <paramref name="b"/>.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b")]
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "a")]
 		public static bool operator >=(Xid a, Xid b)
 		{
 			return a.CompareTo(b) >= 0;
@@ -712,8 +724,6 @@ namespace XidNet
 		/// <param name="a">A <see cref="Xid"/> to compare.</param>
 		/// <param name="b">A <see cref="Xid"/> to compare.</param>
 		/// <returns>True if <paramref name="a"/> is less than <paramref name="b"/>.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b")]
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "a")]
 		public static bool operator <(Xid a, Xid b)
 		{
 			return a.CompareTo(b) == -1;
@@ -725,8 +735,6 @@ namespace XidNet
 		/// <param name="a">A <see cref="Xid"/> to compare.</param>
 		/// <param name="b">A <see cref="Xid"/> to compare.</param>
 		/// <returns>True if <paramref name="a"/> is less than or equal to <paramref name="b"/>.</returns>
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b")]
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "a")]
 		public static bool operator <=(Xid a, Xid b)
 		{
 			return a.CompareTo(b) <= 0;

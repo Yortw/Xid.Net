@@ -7,7 +7,7 @@ Xid uses the Mongo Object ID algorithm to generate globally unique ids with a di
 
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Yortw/Xid.Net/blob/master/LICENSE) 
 [![Build status](https://ci.appveyor.com/api/projects/status/966nb6l0q7j4bomm?svg=true)](https://ci.appveyor.com/project/Yortw/xid-net)
-[![NuGet Badge](https://buildstats.info/nuget/Xid.Net)](https://www.nuget.org/packages/Xid.Net/)
+[![NuGet Badge](https://buildstats.info/nuget/Yort.Xid.Net)](https://www.nuget.org/packages/Yort.Xid.Net/)
 
 # Platforms
 * .Net 4.0+
@@ -15,7 +15,7 @@ Xid uses the Mongo Object ID algorithm to generate globally unique ids with a di
 
 # Install
 ```powershell
-    PM> Install-Package Xid.Net
+    PM> Install-Package Yort.Xid.Net
 ```
 
 # Usage/API
