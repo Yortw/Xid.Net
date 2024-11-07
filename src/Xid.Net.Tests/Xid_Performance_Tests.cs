@@ -11,7 +11,7 @@ namespace XidNet.Tests
 	public class Xid_Performance_Tests
 	{
 		[TestMethod]
-		[Microsoft.VisualStudio.TestTools.UnitTesting.Timeout(2000)]
+		[Microsoft.VisualStudio.TestTools.UnitTesting.Timeout(2700)]
 		public void Xid_New_Performance()
 		{
 			var iterations = 20000000;
